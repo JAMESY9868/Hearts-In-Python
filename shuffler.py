@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # This is the function for shuffling
 from random import shuffle as shuffleFunction
