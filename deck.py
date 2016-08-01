@@ -1,27 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from random import shuffle # imports the function shuffle
+from card import card # imports the class card
+
 class deck:
-    '''
-    Represents a deck of cards.
-    '''
+    'Represents a deck of cards.'
     numOfCards = 52 # number of cards WITHOUT JOKERS
-    cards = list(range(0, numOfCards))
-        # 
-    
-    @staticmethod # this function is static, meaning it does not depend on deck
-    def __shuffledCards(cards):
-        '''
-        Return a shuffled list from range of 0 to num.
-        num: number of cards
-        '''
-        
-
-        tempList = list(range(0, num))
-        shuffleFunction(tempList)
-        return tempList
-
-    def __init__(self):
+    cards = list(range(0, numOfCards)) # a list of cards numbered from 0 to 51
+    cards = [card().setSeries(i) for i in range(0, numOfCards)] # a list of cards numbered from 0 to 51
+    def shuffle(self):
+        'The shuffling is basically to shuffle the "cards" member (which is a list)'
+        shuffle(self.cards)
+    def __init__(self, ifShuffled = True):
         '''
         The constructor of the class
         
