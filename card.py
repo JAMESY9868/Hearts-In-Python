@@ -39,4 +39,9 @@ class card:
         #####################################################################################
         # the current decision is that if windows, output SHCD and otherwise output unicode #
         #####################################################################################
-        return .text(mnToStr(self.getMN(), 'Windows' == sysName))
+        return \
+            (color() if self.getMN()[0] %2 == 1 else color('red'))\
+            .text(mnToStr(self.getMN(), 'Windows' == sysName))
+
+
+pass

@@ -10,6 +10,7 @@ class deck:
     cards = list(range(0, numOfCards)) # a list of cards numbered from 0 to 51
     cards = [card().setSeries(i) for i in range(0, numOfCards)] # a list of cards numbered from 0 to 51
     def shuffle(self):
+        'The shuffling is basically to shuffle the "cards" member (which is a list)'
         shuffle(self.cards)
     def __init__(self, ifShuffled = True):
         '''
