@@ -30,7 +30,7 @@ class card:
     def getSeries(self):
         'Gets the series number'
         return self._series
-    def str(self, colored = False):
+    def str(self, colored = True):
         'Displays the card as text'
         sysName = system()
         mnToStr = lambda mnTuple, indexOfSuites: \
@@ -40,8 +40,11 @@ class card:
         # the current decision is that if windows, output SHCD and otherwise output unicode #
         #####################################################################################
         return \
-            (color() if self.getMN()[0] %2 == 1 else color('red'))\
-            .text(mnToStr(self.getMN(), 'Windows' == sysName))
+            ((color() if self.getMN()[0] %2 == 0 else color('red'))\
+            .text(mnToStr(self.getMN(), 'Windows' == sysName))) if colored\
+                else 
+    def print(self):
+        print(self.str())
 
 
 pass
