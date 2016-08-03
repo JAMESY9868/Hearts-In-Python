@@ -2,4 +2,5 @@
 # -*- encoding: utf-8 -*-
 
 class hand:
-    pass
+    def __init__(self, cards):
+        

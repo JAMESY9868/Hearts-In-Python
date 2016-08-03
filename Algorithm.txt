@@ -1,0 +1,16 @@
+high cards
+play lowest high cards out
+
+beginning get rid of high cards as fast as possible
+
+
+S9+H9, get rid of H first
+
+if all other people play harmless small cards, play highest
+
+if inevitable gain of score, play highest
+
+account for probability of upcoming people playing low cards, and decide whether play low or high card
+
+
+Try to shoot the moon if possible
