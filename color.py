@@ -14,11 +14,11 @@ class color:
         , 'cyan': 36
         , 'white': 37
     }
-    _escapeHeadTail = ['\x1b[', 'm'] # this shouldn't be changed
-    _escapeMid = ['0'] # a list of 1 or 2 elements of stringified numbers
+    __escapeHeadTail = ['\x1b[', 'm'] # this shouldn't be changed
+    __escapeMid = ['0'] # a list of 1 or 2 elements of stringified numbers
     def __eq__(self, value):
         if type(self) != type(value): return False # to ensure value is the right type
-        return self._escapeMid == value._escapeMid
+        return self.__escapeMid == value.__escapeMid
     def __init__(self, foreground = None, background = None, intenseFore = False, intenseBack = False):
         '''
         Initializes with the attributes of: foreground, background, intenseFore, intenseBack
@@ -39,13 +39,13 @@ class color:
             (foreNum + 60) if intenseFore and 'none' == foreground else foreNum, \
             (backNum + 60) if intenseBack and 'none' == background else backNum
         # put stringified data in to object
-        self._escapeMid = [str(num) for num in (foreNum, backNum) if num != 0]
+        self.__escapeMid = [str(num) for num in (foreNum, backNum) if num != 0]
     def str(self):
         'Output the text form of the ANSI color sequence'
         combine = lambda escapeHeadTail, escapeMid: \
             escapeHeadTail[0] + ';'.join(escapeMid) + escapeHeadTail[1]
-        try: return combine(self._escapeHeadTail, self._escapeMid)
-        except KeyError: return combine(self._escapeHeadTail, [0])
+        try: return combine(self.__escapeHeadTail, self.__escapeMid)
+        except KeyError: return combine(self.__escapeHeadTail, [0])
     def text(self, text):
         'To be used directly in print(), to output some colored text "text"'
         try: return self.str() + text + color().str()

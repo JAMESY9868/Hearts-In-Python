@@ -39,12 +39,27 @@ class card:
         #####################################################################################
         # the current decision is that if windows, output SHCD and otherwise output unicode #
         #####################################################################################
-        return \
-            ((color() if self.getMN()[0] %2 == 0 else color('red'))\
-            .text(mnToStr(self.getMN(), 'Windows' == sysName))) if colored\
-                else 
-    def print(self):
-        print(self.str())
+        return ((color() if self.getMN()[0] %2 == 0 else color('red')).text \
+            if colored else (lambda x: x))(mnToStr(self.getMN(), 'Windows' == sysName))
+    def print(self, colored = True):
+        print(self.str(colored))
+    ################################
+    # The section for game playing #
+    ################################
+    def compare(self, currGreat):
+        '''compare whether it is the greater card according to the current suite
+        returns true if it is, false otherwise'''
+        return False if self.getMN()[0] != currGreat.getMN()[0] else \
+            self.getMN()[1] > currGreat.getMN()[1]
+    def sortKey(self):
+        '''When sorting hand, sort by the order:
+            suites as Clubs-Diamonds-Spades-Hearts
+            number from lowest to greatest
+            
+            The easiest way to do this is to add 
+            +series numbers of Spades and Hearts by 4 * 13
+        '''
+        return self._series + (0 if self.getMN()[0] > 1 else 52) 
 
-
+        
 pass
