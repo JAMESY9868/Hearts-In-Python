@@ -23,13 +23,13 @@ handOutScores[(2, 0)] = 5 # club 2 for starting off the game
 ##################################################### END OF handOutScores DATA #####################################################
 #####################################################################################################################################
 
-def handOutCards(handOfCards):
+def handOutCards(handOfCards, overAllScore = [0, 0, 0, 0]):
     'The ai algorithm for handing out cards, returns three "card" objects'
     # evaluate how many high heart cards there is and if there is SQ
-    # if ther is not enough high cards, try to get rid of high cards
+    # if ther is not enough high cards, try to get rid of high cards by score
     # otherwise try to get rid of lowest cards
     
 
-def playCards(handOfCards):
+def playCards(handOfCards, othersCards = [], overAllScore = [0, 0, 0, 0]):
     'the ai algorithm for playing out cards'
 

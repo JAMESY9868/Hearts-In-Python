@@ -10,6 +10,6 @@ def handOutCards(handOfCards):
         'you would like to ')
     print('Cards: ' + handOfCards)
 
-def playCards(handOfCards):
+def playCards(handOfCards, othersCards = []):
     'the human action for playing out cards'
 
