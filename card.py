@@ -8,13 +8,16 @@
 from platform import system # system determines whether the program is run on a Windows, a Mac of a Linux computer.
 from color import color # to make use of the colors
 
+_debug_if_print_middle_blank = False
+
 class card:
     'Represents a digital version of a poker card'
     __series = -1 # Initialize it by -1
     __suites = ('♠♥♣♦', 'SHCD')
     # __numbers = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
-    __numbers = tuple([' ' * (2 - len(number)) + number for number in \
-        ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')])
+    __numbers = tuple([' ' * (2 - len(number) if _debug_if_print_middle_blank else 0) \
+         + number for number in ('2', '3', '4', '5', '6', '7', '8', \
+                                 '9', '10', 'J', 'Q', 'K', 'A')])
     @staticmethod
     def MNToSeries(mnTuple): return 13 * mnTuple[0] + mnTuple[1]
     @staticmethod
@@ -36,14 +39,14 @@ class card:
         return self.__series
     def str(self, colored = True):
         'Displays the card as text'
-        sysName = system()
+        sysName = system() # obtain the OS's name
         mnToStr = lambda mnTuple, indexOfSuites: \
             'Undefined card' if mnTuple[0] < 0 or mnTuple[1] < 0 else \
             card.__suites[indexOfSuites][mnTuple[0]] + card.__numbers[mnTuple[1]]
         #####################################################################################
         # the current decision is that if windows, output SHCD and otherwise output unicode #
         #####################################################################################
-        return ((color() if self.getMN()[0] %2 == 0 else color('red')).text \
+        return ((color() if self.getMN()[0] % 2 == 0 else color('red')).text \
             if colored else (lambda x: x))(mnToStr(self.getMN(), 'Windows' == sysName))
     def print(self, colored = True):
         print(self.str(colored))
