@@ -14,7 +14,7 @@ class color:
         , 'cyan': 36
         , 'white': 37
     }
-    __escapeHeadTail = ['\x1b[', 'm'] # this shouldn't be changed
+    __escapeHeadTail = ['\033[', 'm'] # this shouldn't be changed
     __escapeMid = ['0'] # a list of 1 or 2 elements of stringified numbers
     def __eq__(self, value):
         if type(self) != type(value): return False # to ensure value is the right type
