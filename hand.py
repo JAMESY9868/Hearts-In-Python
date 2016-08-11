@@ -2,6 +2,11 @@
 # -*- encoding: utf-8 -*-
 
 from card import card
+from sys import stdout
+from platform import system
+
+def printf(format, *args): # to simulate C's printf function due to a weird bug in python's print
+    stdout.write(format % args)
 
 class hand:
     def __init__(self, cards = []):
@@ -24,13 +29,35 @@ class hand:
         'Obtain cards'
         self.__cards += cards
         self.__cards = sorted(self.__cards, key = card.sortKey)
+    def str(self, colored = True, multiline = False):
+        'For Windows, "colored" is deprecated and set always to be False'
+        colored &= system() != 'Windows'
+        tempStr = ''
+        for crd in self.__cards: tempStr += crd.str(colored) + \
+            ('\n' if multiline else ' ')
+        return tempStr[:-1] # to remove the last '\n' or space
+    def print(self, colored = True, multiline = False):
+        'For Windows, "colored" is deprecated and set always to be False'
+        print(self.str(colored, multiline))
+        # the code above somehow does not work, possibly a bug for ANSI escape sequences
+        # for crd in self: printf('%s' + ('\n' if multiline else ' '), crd.str(colored))
+        # printf('\n')
+    #############################################################################################
+    ######################################## OPERATORS ##########################################
+    #############################################################################################
+    def __contains__(self, item):
+        return (item if type(item) == card else card().setSeries(item)) in self.__cards
+    #############################################################################################
+    ##################################### END OF OPERATORS ######################################
     #############################################################################################
     ################################ METHODS FOR DEBUGGING ONLY #################################
     #############################################################################################
     @staticmethod
     def __debug_init(cardsSeries = []):
         'FOR DEBUG ONLY. Takes in 13 series numbers of cards'
-        if type(cardsSeries) != list or len(cardsSeries) > 51: raise ValueError
+        if type(cardsSeries) != list or len(cardsSeries) > 52: raise ValueError
         return hand([card().setSeries(n) for n in cardsSeries])
-
+    def __getitem__(self, index): # DEBUG ONLY
+        return self.__cards[index]
 pass
+debug_only_hand = hand._hand__debug_init(list(range(52)))
