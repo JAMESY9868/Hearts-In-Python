@@ -12,6 +12,12 @@ def display(players):
 def _debugTerminalSizeDisplay():
     print('Columns: %d, lines: %d' % tuple(terminalSize()))
 
-def playerPrintLine(printData):
-    'I will change this later'
-    print(printData)
+def screenDataDump(dataNum, dataStr):
+    'PLEASE USE THIS'
+    # Don't worry about implementing this function. 
+    #################################################
+    # if dataNum is:
+    #   0, the players broad dataNum
+    #   1, dumping to the middle section
+    #   2, dumping to the lower section
+    #################################################
