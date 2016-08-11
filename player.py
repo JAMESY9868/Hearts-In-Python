@@ -12,7 +12,7 @@ class player:
         'handOfCards: a "hand" of cards; ifHumanPlayer: whether this player is human'
         self.handOfCards = handOfCards
         self.actionModule = human if ifHumanPlayer else ai
-    def handOutCards(self):
+    def handOutCards(self, overAllScore, targetPlayerNum):
         return self.actionModule.handOutCards(self.handOfCards)
-    def playCards(self):
+    def playCards(self, othersCards, overAllScore):
         return self.actionModule.playCards(self.handOfCards)
