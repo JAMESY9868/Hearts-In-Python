@@ -42,6 +42,8 @@ class hand:
         # the code above somehow does not work, possibly a bug for ANSI escape sequences
         # for crd in self: printf('%s' + ('\n' if multiline else ' '), crd.str(colored))
         # printf('\n')
+    def __getitem__(self, index):
+        return self.__cards[index]
     #############################################################################################
     ######################################## OPERATORS ##########################################
     #############################################################################################
@@ -57,7 +59,5 @@ class hand:
         'FOR DEBUG ONLY. Takes in 13 series numbers of cards'
         if type(cardsSeries) != list or len(cardsSeries) > 52: raise ValueError
         return hand([card().setSeries(n) for n in cardsSeries])
-    def __getitem__(self, index): # DEBUG ONLY
-        return self.__cards[index]
 pass
 debug_only_hand = hand._hand__debug_init(list(range(52)))
