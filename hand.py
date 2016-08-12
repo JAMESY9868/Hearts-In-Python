@@ -19,15 +19,15 @@ class hand:
     def playCardByCard(self, card):
         for i in range(len(self.__cards)):
             if self.__cards[i] == card: return self.playCardByInd(i)
-    def giveThreeCards(self, indeces, target):
+    def giveThreeCards(self, indices, target):
         'Give three cards out to target'
-        if len(indeces) - 3: raise ValueError # if length != 3, error
-        given = [self.__cards[i] for i in indeces]
-        for i in indeces: del self.__cards[i]
+        if len(indices) - 3: raise ValueError # if length != 3, error
+        given = [self.__cards[i] for i in indices]
+        for i in indices: del self.__cards[i]
         target.obtainCards(given)
     def obtainCards(self, cards):
         'Obtain cards'
-        self.__cards += cards
+        self.__cards += [cards] if type(cards) == card else cards
         self.__cards = sorted(self.__cards, key = card.sortKey)
     def str(self, colored = True, multiline = False):
         'For Windows, "colored" is deprecated and set always to be False'
@@ -42,13 +42,14 @@ class hand:
         # the code above somehow does not work, possibly a bug for ANSI escape sequences
         # for crd in self: printf('%s' + ('\n' if multiline else ' '), crd.str(colored))
         # printf('\n')
-    def __getitem__(self, index):
-        return self.__cards[index]
     #############################################################################################
     ######################################## OPERATORS ##########################################
     #############################################################################################
     def __contains__(self, item):
-        return (item if type(item) == card else card().setSeries(item)) in self.__cards
+        return (item if type(item) == card else card().setSeries(item) 
+            if type(item) == int else card().setMN(*item)) in self.__cards
+    def __getitem__(self, index):
+        return self.__cards[index]
     #############################################################################################
     ##################################### END OF OPERATORS ######################################
     #############################################################################################

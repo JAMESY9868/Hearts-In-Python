@@ -2,6 +2,9 @@
 # -*- encoding: utf-8 -*-
 
 from hand import hand
+from card import card
+
+playerNames = ('Ann', 'Bob', 'Dan')
 
 ##########################################################################################################################
 ################################################ START OF cardValues DATA ################################################
@@ -25,9 +28,13 @@ cardValues[(2, 0)] = 5 # club 2 for starting off the game
 
 def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     'The ai algorithm for handing out cards, returns three "card" objects'
-    # evaluate how many high heart cards there is and if there is SQ
+    # evaluate how many high heart cards there is and if there is SQ and if there are few enough low heart cards
     # if ther is not enough high cards, try to get rid of high cards by score
     # otherwise try to get rid of lowest cards
+    allHearts = [cardValues[c.getMN()] for c in handOfCards]
+    ifShootMoon = (0, 10) in handOfCards and \
+        5 <= len([x for x in allHearts if x > 0]) \
+        and 2 >= len([x for x in allHearts if x < 0])
     
 
 def playCards(handOfCards, othersCards, overAllScore):
