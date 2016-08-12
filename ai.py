@@ -35,7 +35,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     ifShootMoon = (0, 10) in handOfCards and \
         5 <= len([x for x in allHearts if x > 0]) \
         and 2 >= len([x for x in allHearts if x < 0])
-    
+    return sorted([], reversed = not ifShootMoon)[:3]
 
 def playCards(handOfCards, othersCards, overAllScore):
     'the ai algorithm for playing out cards'

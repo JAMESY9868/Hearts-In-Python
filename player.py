@@ -13,6 +13,6 @@ class player:
         self.handOfCards = handOfCards
         self.actionModule = human if ifHumanPlayer else ai
     def handOutCards(self, overAllScore, targetPlayerNum):
-        return self.actionModule.handOutCards(self.handOfCards, overAllScore, targetPlayerNum)
+        handedCards = self.actionModule.handOutCards(self.handOfCards, overAllScore, targetPlayerNum)
     def playCards(self, othersCards, overAllScore):
-        return self.actionModule.playCards(self.handOfCards, othersCards, overAllScore)
+        playedCard = self.actionModule.playCards(self.handOfCards, othersCards, overAllScore)
