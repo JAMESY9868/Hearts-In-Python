@@ -8,7 +8,7 @@ from player import playerNames as names
 def playerPrintLine(printData):
     'PLEASE USE THIS. I WILL UPDATE THE FUNCTION IN THE OTHER FILE LATER'
     # print in the lower section
-    print(printData)
+    dataDisplay.screenDataDump(2, printData)
 def scorePrint(scoreData):
     'Dont USE THIS'
     # print(scoreData)
@@ -17,7 +17,18 @@ def playedCardsPrint(playedCards):
     # print in the middle section
     print(playedCards)
 def handOutCards(handOfCards, overAllScore, targetPlayerNum):
-    'the human action for handing out cards'
+    if targetPlayerNum==0：
+        return []
+    else:
+        playerPrintLine("Please type in the indices of the cards counted from left to right (starting from 0) that you would like to hand out to"+ targetPlayerNum + ".(please type in the numbers in this way: 1 2 3)")
+        string=input.split()
+        exchangeCards=[]
+        for i in string:
+            exchangeCards+=handOfCards[i]
+        return exchangeCards
+
+
+
     ####################################################################
     # First, print the informational line:
     #    'Please type in the indices of the cards counted from left to right (starting from 0) that you would like to hand out to ' + TARGETNAME + '.'
