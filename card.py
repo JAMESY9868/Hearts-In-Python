@@ -19,16 +19,16 @@ class card:
          + number for number in ('2', '3', '4', '5', '6', '7', '8', \
                                  '9', '10', 'J', 'Q', 'K', 'A')])
     @staticmethod
-    def MNToSeries(mnTuple): return 13 * mnTuple[0] + mnTuple[1]
+    def mnToSeries(mnTuple): return 13 * mnTuple[0] + mnTuple[1]
     @staticmethod
-    def SeriesToMN(series): return series // 13, series % 13
+    def seriesToMN(series): return series // 13, series % 13
     def setMN(self, m, n):
         'Sets the m, n values and return self'
-        self.setSeries(self.MNToSeries((m, n)))
+        self.setSeries(self.mnToSeries((m, n)))
         return self
     def getMN(self):
         'Gets the m, n values'
-        return self.SeriesToMN(self.__series)
+        return self.seriesToMN(self.__series)
     def setSeries(self, series = -1):
         'Sets the series number and return self'
         # This method is only supposed to be used in initializing a deck of cards
@@ -39,7 +39,9 @@ class card:
         return self.__series
     def str(self, colored = True):
         'Displays the card as text'
+        # For Windows, "colored" is deprecated and set always to be False
         sysName = system() # obtain the OS's name
+        colored &= sysName != 'Windows'
         mnToStr = lambda mnTuple, indexOfSuites: \
             'Undefined card' if mnTuple[0] < 0 or mnTuple[1] < 0 else \
             card.__suites[indexOfSuites][mnTuple[0]] + card.__numbers[mnTuple[1]]
@@ -49,6 +51,7 @@ class card:
         return ((color() if self.getMN()[0] % 2 == 0 else color('red')).text \
             if colored else (lambda x: x))(mnToStr(self.getMN(), 'Windows' == sysName))
     def print(self, colored = True):
+        'For Windows, "colored" is deprecated and set always to be False'
         print(self.str(colored))
     ################################
     # The section for game playing #

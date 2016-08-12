@@ -9,9 +9,12 @@ def printf(format, *args): # to simulate C's printf function due to a weird bug 
     stdout.write(format % args)
 
 class hand:
+    @staticmethod
+    def __handSort(cards):
+        return sorted(cards, key = card.sortKey) # Clb-Dmnd-Spd-Hrt
     def __init__(self, cards = []):
         'Initialize cards'
-        self.__cards = sorted(cards, key = card.sortKey) # Clb-Dmnd-Spd-Hrt
+        self.__cards = self.__handSort(cards)
     def playCardByIndex(self, index):
         temp = self.__cards[index]
         del self.__cards[index]
