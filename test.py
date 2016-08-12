@@ -15,11 +15,11 @@ def tester():
         ai.handOutCards, 
         [
             [hand.hand._hand__debug_init([11, 12, 19, 25, 26, 28, 38, 39, 40, 41, 42, 50, 51]), [], 1], 
-            #[hand.hand._hand__debug_init([11, 12, 19, 25, 26, 28, 38, 39, 40, 41, 42, 50, 51]), [], 0],
+            [hand.hand._hand__debug_init([11, 12, 19, 25, 26, 28, 38, 39, 40, 41, 42, 50, 51]), [], 0],
         ],
         [
             [card.card().setSeries(ser) for ser in [11, 12, 25]],
-            #[],
+            [],
         ]
         )
 
