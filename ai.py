@@ -43,7 +43,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
         , key = card.sortKey
     )
 
-def playCards(handOfCards, othersCards, overAllScore):
+def playCards(handOfCards, othersCards, overAllScore, ifShootMoon):
     'the ai algorithm for playing out cards'
     ##########################################################################################
     # try to play the lowest high cards
@@ -60,5 +60,7 @@ def playCards(handOfCards, othersCards, overAllScore):
     # for scoreless turns play lowest card
     # if negative-value cards' amount reduces to 5, start to play highest cards
     ##########################################################################################
-    
-    
+    if ifShootMoon:
+        pass
+    else:
+        # if no score gaining, output 
