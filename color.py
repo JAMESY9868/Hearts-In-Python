@@ -50,7 +50,7 @@ class color:
         'To be used directly in print(), to output some colored text "text"'
         try: return self.str() + text + color().str()
         except TypeError: return '' # return nothing if it gets TypeError, namely bad 'text'
-    def print(self, text):
+    def printData(self, text):
         'For debugging only: to print the text from text() instead of outputting the text itself'
         print(self.text(text))
 

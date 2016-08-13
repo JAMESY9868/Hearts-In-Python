@@ -39,7 +39,7 @@ class hand:
         for crd in self.__cards: tempStr += crd.str(colored) + \
             ('\n' if multiline else ' ')
         return tempStr[:-1] # to remove the last '\n' or space
-    def print(self, colored = True, multiline = False):
+    def printData(self, colored = True, multiline = False):
         'For Windows, "colored" is deprecated and set always to be False'
         print(self.str(colored, multiline))
         # the code above somehow does not work, possibly a bug for ANSI escape sequences
@@ -49,7 +49,7 @@ class hand:
     ######################################## OPERATORS ##########################################
     #############################################################################################
     def __contains__(self, item):
-        return (item if type(item) == card else card().setSeries(item) 
+        return (item if type(item) == card else card().setSeries(item)
             if type(item) == int else card().setMN(*item)) in self.__cards
     def __getitem__(self, index):
         return self.__cards[index]
