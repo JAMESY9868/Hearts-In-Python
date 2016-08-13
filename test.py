@@ -21,8 +21,19 @@ def tester():
             [card.card().setSeries(ser) for ser in [11, 12, 25]],
             [],
         ]
-        )
-
+    )
+    # section: card testing
+    result += rsltFunc(
+        card.card.score,
+        [
+            [card.card().setMN(2, 8)],
+            [card.card().setMN(0,10)],
+        ],
+        [
+            0,
+            13,
+        ]
+    )
 
 
 def unitTest(testFunction, testInputLists, testResults):
