@@ -1,1 +1,7 @@
+# https://github.com/JAMESY9868/Hearts-In-Python
 
+language: python
+python:
+    - 3.5
+install:
+script: python test.py
