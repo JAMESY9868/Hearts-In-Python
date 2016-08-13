@@ -34,10 +34,5 @@ def playTurn(players, overAllScore, playedRounds):
         for k in range(3):
             high = othersCards[k] if othersCards[k].compare(high) else high
         scores = sum([crd.score() for crd in othersCards])
-            
-
-
-
-
 
 if __name__ == '__main__': main()
