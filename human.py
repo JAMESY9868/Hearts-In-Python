@@ -18,7 +18,9 @@ def scorePrint(scoreData):
 def playedCardsPrint(playedCards):
     'PLEASE IMPLEMENT AND USE THIS.'
     # print in the middle section
-    print(playedCards)
+    dataDisplay.screenDataDump(1, playedCards)
+def playerInput(prompt):
+    return input(prompt)
 def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     if targetPlayerNum==0：
         return []
@@ -45,12 +47,27 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
 
 def playCards(handOfCards, othersCards, overAllScore):
     'the human action for playing out cards'
+    # othersCards: a list of 0~3 cards
     ####################################################################
-    # First, print what others have played out, USING playedCardsPrint
+    # First, print what others have played out, USING playedCardsPrint 'SQ HQ CQ'
     # third, print the informational line:
     #    'Please type in the index of the card counted from left to right (starting from 0) that you would like to play.'
     # last, print the current hand ___USING playerPrintLine___
-    # and asks for the input
+    # and asks for the input using playerInput
     #
     # returns a card object to play out
     ####################################################################
+    s = ''
+    for crd in othersCards:
+        s += crd.str() + ' '
+    playedCardsPrint(s[:-1])
+    playerPrintLine("Please type in the index of the card counted from left to right (starting from 0) that you would like to play.")
+    playerPrintLine(handOfCards.str())
+    result = ''
+    while result == ''
+        result = playerInput("Please type in the input")
+        try:
+            result = int(result)
+            return handOfCards[result]
+        except:
+            result = ''
