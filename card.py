@@ -50,7 +50,7 @@ class card:
         #####################################################################################
         return ((color() if self.getMN()[0] % 2 == 0 else color('red')).text \
             if colored else (lambda x: x))(mnToStr(self.getMN(), 'Windows' == sysName))
-    def print(self, colored = True):
+    def printData(self, colored = True):
         'For Windows, "colored" is deprecated and set always to be False'
         print(self.str(colored))
     ################################
@@ -67,11 +67,11 @@ class card:
         '''When sorting hand, sort by the order:
             suites as Clubs-Diamonds-Spades-Hearts
             number from lowest to greatest
-            
-            The easiest way to do this is to add 
+
+            The easiest way to do this is to add
             +series numbers of Spades and Hearts by 4 * 13
         '''
-        return self.__series + (0 if self.getMN()[0] > 1 else 52) 
+        return self.__series + (0 if self.getMN()[0] > 1 else 52)
 
     def score(self):
         if self.__series == 10:
