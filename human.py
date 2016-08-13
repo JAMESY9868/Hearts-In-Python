@@ -45,7 +45,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     # NOTE: If the target player number is 0 (the player himself), do nothing
     ####################################################################
 
-def playCards(handOfCards, othersCards, overAllScore):
+def playCards(handOfCards, othersCards, overAllScore, ifShootMoon = False, canHearts = False):
     'the human action for playing out cards'
     # othersCards: a list of 0~3 cards
     ####################################################################
@@ -68,6 +68,7 @@ def playCards(handOfCards, othersCards, overAllScore):
         result = playerInput("Please type in the input")
         try:
             result = int(result)
+            if (not canHearts and 1 == handOfCards[result]) or (not len(othersCards) and othersCards[0].getMN()[0] != handOfCards[result].getMN()[0] and (othersCards[0].getMN()[0] in [crd.getMN()[0] for crd in handOfCards])): raise ValueError
             return handOfCards[result]
         except:
             result = ''

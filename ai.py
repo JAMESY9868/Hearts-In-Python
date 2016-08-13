@@ -3,6 +3,7 @@
 
 from hand import hand
 from card import card
+import random
 
 playerNames = ('Ann', 'Bob', 'Dan')
 
@@ -43,7 +44,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
         , key = card.sortKey
     )
 
-def playCards(handOfCards, othersCards, overAllScore, ifShootMoon):
+def playCards(handOfCards, othersCards, overAllScore, ifShootMoon = False, ifCanHearts = False):
     'the ai algorithm for playing out cards'
     ##########################################################################################
     # try to play the lowest high cards
@@ -60,7 +61,22 @@ def playCards(handOfCards, othersCards, overAllScore, ifShootMoon):
     # for scoreless turns play lowest card
     # if negative-value cards' amount reduces to 5, start to play highest cards
     ##########################################################################################
-    if ifShootMoon:
-        pass
+    othersHighest = lambda: [] if not len(othersCards) else \
+        sorted([crd for crd in othersCards], card.sortKey)[-1]
+    lessThanOthers = lambda ifRisking = False: \
+        [crd for crd in handOfCards if crd.getMN()[1] == \
+            othersHighest(othersCards).getMN()[1] + (3 if ifRisking else 0)]
+    sameSuite = lambda: \
+        [crd for crd in handOfCards if crd.getMN()[0] == othersHighest(othersCards).getMN()[0]]
+    indexOf = lambda item, lst: -1 if item not in lst else sum([])
+    if ifShootMoon: # returns the highest scored card
+        return sorted(handOfCards, key=lambda crd: cardValues[crd.getMN()])[-1]
     else:
-        # if no score gaining, output 
+        # output the highest of card that avoids score gaining if possible
+        if len(lessThanOthers()):
+            return lessThanOthers()[-1]
+        elif len(lessThanOthers(True)): # if has cards that greater by 3, play the lowest of these (risking)
+            return lessThanOthers()[0]
+        elif sameSuite(): # return highest
+            return sameSuite()[-1]
+        elif sorted(handOfCards, key=lambda crd: cardValues[crd.getMN()])[-1]
