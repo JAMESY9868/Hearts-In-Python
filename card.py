@@ -73,5 +73,10 @@ class card:
         '''
         return self.__series + (0 if self.getMN()[0] > 1 else 52) 
 
-
+    def score(self):
+        if self.__series == 10:
+            return 13
+        if 13<=self.__series<=25:
+            return 1
+        return 0
 pass
