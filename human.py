@@ -22,15 +22,20 @@ def playedCardsPrint(playedCards):
 def playerInput(prompt):
     return input(prompt)
 def handOutCards(handOfCards, overAllScore, targetPlayerNum):
-    if targetPlayerNum==0：
+    if targetPlayerNum==0:
         return []
     else:
-        playerPrintLine("Please type in the indices of the cards counted from left to right (starting from 0) that you would like to hand out to"+ targetPlayerNum + ".(please type in the numbers in this way: 1 2 3)")
-        string=input.split()
-        exchangeCards=[]
-        for i in string:
-            exchangeCards+=handOfCards[i]
-        return exchangeCards
+        playerPrintLine('Please type in the indices of the cards counted from left to right (starting from 0) that you would like to hand out to ' + ['Ann', 'Bob', 'Dan'][targetPlayerNum] + '. (please type in the numbers in this way: 1 2 3)')
+        
+        result = ''
+        while result == '':
+            result = playerInput('Please type in the indices: ')
+            try:
+                result = [handOfCards[int(i)] for i in result.split()]
+                if len(result) != 3: 1 / 0
+                return result
+            except: result = ''
+        
 
 
 
@@ -64,7 +69,7 @@ def playCards(handOfCards, othersCards, overAllScore):
     playerPrintLine("Please type in the index of the card counted from left to right (starting from 0) that you would like to play.")
     playerPrintLine(handOfCards.str())
     result = ''
-    while result == ''
+    while result == '':
         result = playerInput("Please type in the input")
         try:
             result = int(result)
