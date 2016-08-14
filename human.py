@@ -25,6 +25,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     if targetPlayerNum==0:
         return []
     else:
+        playerPrintLine(handOfCards.str())
         playerPrintLine('Please type in the indices of the cards counted from left to right (starting from 0) that you would like to hand out to ' + ['Ann', 'Bob', 'Dan'][targetPlayerNum] + '. (please type in the numbers in this way: 1 2 3)')
         
         result = ''
@@ -50,7 +51,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     # NOTE: If the target player number is 0 (the player himself), do nothing
     ####################################################################
 
-def playCards(handOfCards, othersCards, overAllScore, ifShootMoon = False, canHearts = False):
+def playCards(handOfCards, othersCards, overAllScore, playerNum = -1, ifShootMoon = None, canHearts = False):
     'the human action for playing out cards'
     # othersCards: a list of 0~3 cards
     ####################################################################
@@ -65,15 +66,23 @@ def playCards(handOfCards, othersCards, overAllScore, ifShootMoon = False, canHe
     s = ''
     for crd in othersCards:
         s += crd.str() + ' '
-    playedCardsPrint(s[:-1])
+    # playedCardsPrint(s[:-1])
     playerPrintLine("Please type in the index of the card counted from left to right (starting from 0) that you would like to play.")
     playerPrintLine(handOfCards.str())
     result = ''
     while result == '':
-        result = playerInput("Please type in the input")
+        if (2, 0) in handOfCards: return card().setMN(2, 0)
+        result = playerInput("Please type in your choice: ")
         try:
             result = int(result)
-            if (not canHearts and 1 == handOfCards[result]) or (not len(othersCards) and othersCards[0].getMN()[0] != handOfCards[result].getMN()[0] and (othersCards[0].getMN()[0] in [crd.getMN()[0] for crd in handOfCards])): raise ValueError
+            if (
+                (not canHearts and 1 == handOfCards[result].getMN()[0]) or
+                (
+                    not len(othersCards) and
+                    othersCards[0].getMN()[0] != handOfCards[result].getMN()[0] and
+                    othersCards[0].getMN()[0] in [crd.getMN()[0] for crd in handOfCards]
+                )
+            ): raise ValueError
             return handOfCards[result]
         except:
             result = ''

@@ -21,7 +21,7 @@ class hand:
         return temp
     def playCardByCard(self, card):
         for i in range(len(self.__cards)):
-            if self.__cards[i] == card: return self.playCardByInd(i)
+            if self.__cards[i] == card: return self.playCardByIndex(i)
     def giveThreeCards(self, indices, target):
         'Give three cards out to target'
         if len(indices) - 3: raise ValueError # if length != 3, error

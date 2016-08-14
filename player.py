@@ -15,7 +15,7 @@ class player:
         self.allPlayers=[]
         self.playerNum=-1
         self.setMode(ifHumanPlayer)
-    def setMode(ifHumanPlayer = False):        
+    def setMode(self, ifHumanPlayer = False):        
         self.actionModule = human if ifHumanPlayer else ai
     def setAllPlayers(self, allPlayers):
         self.allPlayers=allPlayers
@@ -23,5 +23,7 @@ class player:
         self.playerNum=playerNum
     def handOutCards(self, overAllScore, targetPlayerNum):
         return self.actionModule.handOutCards(self.handOfCards, overAllScore, targetPlayerNum)
-    def playCards(self, othersCards, overAllScore):
-        return self.actionModule.playCards(self.handOfCards, othersCards, overAllScore)
+    def playCards(self, othersCards, overAllScore, canHearts):
+        playedCard = self.actionModule.playCards(self.handOfCards, othersCards, overAllScore, self.playerNum, False, canHearts)
+        print((('You', ) + playerNames)[self.playerNum] + ' played ' + playedCard.str() + '.')
+        return playedCard

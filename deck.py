@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-from random import shuffle # imports the function shuffle
+from random import shuffle, seed, randrange # imports the function shuffle
 from card import card # imports the class card
 from hand import hand # imports the class hand
+
+seed()
 
 class deck:
     'Represents a deck of cards.'
@@ -19,5 +21,5 @@ class deck:
         return hand(self.__cards[13 * playerNum : 13 * (playerNum + 1)])
     def fourHands(self, ifNeedShuffle = True):
         'Returns four hands after shuffling once'
-        if ifNeedShuffle: self.shuffle()
+        if ifNeedShuffle: [self.shuffle() for i in range(randrange(1, 0xff))]
         return [self.__giveCards(num) for num in range(4)]

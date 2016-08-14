@@ -3,7 +3,10 @@
 
 from hand import hand
 from card import card
+from time import sleep
 import random
+
+sleepTime = 1
 
 playerNames = ('Ann', 'Bob', 'Dan')
 
@@ -32,6 +35,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
     # evaluate how many high heart cards there is and if there is SQ and if there are few enough low heart cards
     # if ther is not enough high cards, try to get rid of high cards by score
     # otherwise try to get rid of lowest cards
+    sleep(sleepTime)
     if not targetPlayerNum: return [] # if 0, do nothing
     allHearts = [cardValues[c.getMN()] for c in handOfCards]
     ifShootMoon = (0, 10) in handOfCards and \
@@ -44,7 +48,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
         , key = card.sortKey
     )
 
-def playCards(handOfCards, othersCards, overAllScore, ifShootMoon = False, ifCanHearts = False):
+def playCards(handOfCards, othersCards, overAllScore, playerNum, ifShootMoon = False, ifCanHearts = False):
     'the ai algorithm for playing out cards'
     ##########################################################################################
     # try to play the lowest high cards
@@ -61,22 +65,31 @@ def playCards(handOfCards, othersCards, overAllScore, ifShootMoon = False, ifCan
     # for scoreless turns play lowest card
     # if negative-value cards' amount reduces to 5, start to play highest cards
     ##########################################################################################
-    othersHighest = lambda: [] if not len(othersCards) else \
-        sorted([crd for crd in othersCards], card.sortKey)[-1]
-    lessThanOthers = lambda ifRisking = False: \
-        [crd for crd in handOfCards if crd.getMN()[1] == \
-            othersHighest(othersCards).getMN()[1] + (3 if ifRisking else 0)]
-    sameSuite = lambda: \
+    sleep(sleepTime)
+    othersHighest = lambda othersCards = othersCards: [] if not len(othersCards) else \
+        sorted([crd for crd in othersCards], key = card.sortKey)[-1]
+    sameSuite = lambda handOfCards = handOfCards: \
         [crd for crd in handOfCards if crd.getMN()[0] == othersHighest(othersCards).getMN()[0]]
-    indexOf = lambda item, lst: -1 if item not in lst else sum([])
+    lessThanOthers = lambda ifRisking = False: \
+        [crd for crd in sameSuite(handOfCards) if crd.getMN()[1] == \
+            othersHighest(othersCards).getMN()[1] + (3 if ifRisking else 0)]
+    handAfterHearts = lambda handOfCards: \
+        [crd for crd in handOfCards if ifCanHearts or crd.getMN()[0] != 1]
+    limitHandWithHearts = lambda handOfCards, removeOrKeepOnly: \
+        [crd for crd in handOfCards if removeOrKeepOnly ^ crd.getMN()[0] == 1]
+    if len(handOfCards[:]) == 13 and (2, 0) in handOfCards: return card().setMN(2, 0)
     if ifShootMoon: # returns the highest scored card
-        return sorted(handOfCards, key=lambda crd: cardValues[crd.getMN()])[-1]
+        return sorted(handAfterHearts(handOfCards), key = lambda crd: cardValues[crd.getMN()])[-1]
     else:
         # output the highest of card that avoids score gaining if possible
-        if len(lessThanOthers()):
-            return lessThanOthers()[-1]
+        if not len(othersCards):
+            return sorted(handAfterHearts(handOfCards), key = lambda crd: cardValues[crd.getMN()])[0]
+        elif len(lessThanOthers()): return lessThanOthers()[-1]
         elif len(lessThanOthers(True)): # if has cards that greater by 3, play the lowest of these (risking)
             return lessThanOthers()[0]
-        elif sameSuite(): # return highest
-            return sameSuite()[-1]
-        elif sorted(handOfCards, key=lambda crd: cardValues[crd.getMN()])[-1]
+        elif sameSuite(): return sameSuite()[-1] # return highest
+        elif [i for i in range(4) if overAllScore[i] == min(overAllScore)][0] == \
+            ([i for i in range(4) if othersHighest() == othersCards[i]][0]
+                + playerNum - len(othersCards) % 4): # go for the lowest score player
+            return sorted(limitHandWithHearts(handOfCards, True), key = lambda crd: cardValues[crd.getMN()])[-1]
+        else: return sorted(limitHandWithHearts(handOfCards, False), key = lambda crd: cardValues[crd.getMN()])[-1]
