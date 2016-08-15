@@ -6,8 +6,6 @@ import dataDisplay # use this module to implement playerPrintLine and playedCard
 #from player import playerNames as names
 playerNames = ('Ann', 'Bob', 'Dan')
 
-names = playerNames
-
 def playerPrintLine(printData):
     'PLEASE USE THIS. I WILL UPDATE THE FUNCTION IN THE OTHER FILE LATER'
     # print in the lower section

@@ -4,6 +4,8 @@
 import ai # ai is the module for ai actions
 import human # human is the module of human action
 
+from debugMode import _ifDebug
+
 playerNames = ('Ann', 'Bob', 'Dan')
 
 class player:
@@ -26,4 +28,5 @@ class player:
     def playCards(self, othersCards, overAllScore, canHearts):
         playedCard = self.actionModule.playCards(self.handOfCards, othersCards, overAllScore, self.playerNum, False, canHearts)
         print((('You', ) + playerNames)[self.playerNum] + ' played ' + playedCard.str() + '.')
+        if _ifDebug: print(self.playerNum)
         return playedCard

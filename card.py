@@ -8,16 +8,13 @@
 from platform import system # system determines whether the program is run on a Windows, a Mac of a Linux computer.
 from color import color # to make use of the colors
 
-_debug_if_print_middle_blank = False
-
 class card:
     'Represents a digital version of a poker card'
     __series = -1 # Initialize it by -1
     __suites = ('♠♥♣♦', 'SHCD')
     # __numbers = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
-    __numbers = tuple([' ' * (2 - len(number) if _debug_if_print_middle_blank else 0) \
-         + number for number in ('2', '3', '4', '5', '6', '7', '8', \
-                                 '9', '10', 'J', 'Q', 'K', 'A')])
+    __numbers = tuple([number for number in 
+        ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')])
     @staticmethod
     def mnToSeries(mnTuple): return 13 * mnTuple[0] + mnTuple[1]
     @staticmethod
@@ -56,9 +53,14 @@ class card:
     ################################
     # The section for game playing #
     ################################
-    def compare(self, currGreat):
-        '''compare whether it is the greater card according to the current suite
+    def higher(self, currGreat = None):
+        'Returns the higher card, according to currGreat'
+        '''compare whether self is the greater card according to the current suite
         returns true if it is, false otherwise'''
+        if not currGreat: return self
+        return currGreat if \
+            self.getMN()[0] != currGreat.getMN()[0] or self.getMN()[1] <= currGreat.getMN()[1] \
+                else self
         return False if self.getMN()[0] != currGreat.getMN()[0] else \
             self.getMN()[1] > currGreat.getMN()[1]
     def __eq__(self, other):
