@@ -6,9 +6,9 @@ from card import card
 from time import sleep
 import random
 
-from debugMode import _ifDebug
+from debugMode import _ifDebug, trace
 
-sleepTime = 1
+sleepTime = .01 if _ifDebug else 1
 
 playerNames = ('Ann', 'Bob', 'Dan')
 
@@ -44,7 +44,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
         5 <= len([x for x in allHearts if x > 0]) \
         and 2 >= len([x for x in allHearts if x < 0])
     return sorted(
-        sorted(handOfCards[:], \
+        sorted(handOfCards, \
             key = lambda crd: cardValues[crd.getMN()], \
             reverse = not ifShootMoon)[:3] # returns three cards
         , key = card.sortKey
@@ -68,36 +68,44 @@ def playCards(handOfCards, othersCards, overAllScore, playerNum, ifShootMoon = F
     # if negative-value cards' amount reduces to 5, start to play highest cards
     ##########################################################################################
     sleep(sleepTime)
-    if _ifDebug: print(handOfCards.str() + ' ' + str(len(handOfCards[:])))
-    if len(handOfCards[:]) == 13 and (2, 0) in handOfCards: return card().setMN(2, 0)
-    othersHighest = lambda othersCards = othersCards: [] if not len(othersCards) else \
+    if _ifDebug: print(handOfCards.str() + ' ' + str(len(handOfCards)))
+    othersHighest = lambda othersCards = othersCards: card() if not len(othersCards) else \
         sorted([crd for crd in othersCards], key = card.sortKey)[-1]
-    sameSuite = lambda handOfCards = handOfCards: \
-        [crd for crd in handOfCards if crd.getMN()[0] == othersHighest(othersCards).getMN()[0]]
-    lessThanOthers = lambda ifRisking = False: \
-        [crd for crd in sameSuite(handOfCards) if crd.getMN()[1] == \
+    sameSuite = lambda handOfCards = handOfCards, othersCards = othersCards: \
+        [crd for crd in handOfCards if crd.getMN()[0] == 
+            (othersCards[0] if len(othersCards) else card()).getMN()[0]]
+    lessThanOthers = lambda handOfCards = handOfCards, ifRisking = False: \
+        [crd for crd in sameSuite(handOfCards) if crd.getMN()[1] <= \
             othersHighest(othersCards).getMN()[1] + (3 if ifRisking else 0)]
     handAfterHearts = lambda handOfCards: \
         [crd for crd in handOfCards if ifCanHearts or crd.getMN()[0] != 1]
     limitHandWithHearts = lambda handOfCards, removeOrKeepOnly: \
-        [crd for crd in handOfCards if removeOrKeepOnly ^ crd.getMN()[0] == 1]
+        [crd for crd in handOfCards if removeOrKeepOnly ^ (crd.getMN()[0] == 1)]
+    if len(handOfCards) == 13 and (2, 0) in handOfCards: return card().setMN(2, 0)
+    canPlay = sameSuite()
+    if not len(canPlay):
+        if len(othersCards) or ifCanHearts: canPlay = handOfCards
+        else: canPlay = limitHandWithHearts(handOfCards, True)
     if ifShootMoon: # returns the highest scored card
-        return sorted(handAfterHearts(handOfCards), key = lambda crd: cardValues[crd.getMN()])[-1]
+        return sorted(canPlay, key = lambda crd: cardValues[crd.getMN()])[-1]
     else:
+        if not len(othersCards) and len(canPlay):
+            return sorted(canPlay, key = lambda crd: cardValues[crd.getMN()])[0]
         # output the highest of card that avoids score gaining if possible
-        if not len(handAfterHearts(othersCards)):
-            return sorted(handAfterHearts(handOfCards), key = lambda crd: cardValues[crd.getMN()])[0]
-        elif len(lessThanOthers()): return lessThanOthers()[-1]
-        elif len(lessThanOthers(True)): # if has cards that greater by 3, play the lowest of these (risking)
-            return lessThanOthers(True)[0]
-        elif sameSuite(): return sameSuite()[-1] # return highest
+        elif len([c for c in sameSuite(canPlay) if c.getMN() != (0, 10)]) and 3 == len(othersCards) and \
+            not sum([crd.score() for crd in othersCards]):
+            return [c for c in sameSuite(canPlay) if c.getMN() != (0, 10)][-1] # if safe, play highest
+        elif len(lessThanOthers(canPlay)): return lessThanOthers(canPlay)[-1]
+        elif len(lessThanOthers(canPlay, True)): # if has cards that greater by 3, play the lowest of these (risking)
+            return lessThanOthers(canPlay, True)[0]
+        elif len(sameSuite(canPlay)): return sameSuite(canPlay)[-1] # if any same suite, return highest
         try:
             if [i for i in range(4) if overAllScore[i] == min(overAllScore)][0] == \
                 ([i for i in range(len(othersCards)) if othersHighest() == othersCards[i]][0]
-                    + playerNum - len(othersCards) % 4): # go for the lowest score player
-                return sorted(limitHandWithHearts(handOfCards, True), key = lambda crd: cardValues[crd.getMN()])[-1]
-            else: return sorted(limitHandWithHearts(handAfterHearts(handOfCards), False),
+                    + playerNum - len(othersCards)) % 4: # go for the lowest score player
+                return sorted(limitHandWithHearts(canPlay, True), key = lambda crd: cardValues[crd.getMN()])[-1]
+            else: return sorted(limitHandWithHearts(canPlay, False),
                 key = lambda crd: cardValues[crd.getMN()])[-1]
-        except:
-            try: return sorted(handAfterHearts(handOfCards), key = lambda crd: cardValues[crd.getMN()])[-1]
+        except IndexError:
+            try: return sorted(canPlay, key = lambda crd: cardValues[crd.getMN()])[-1]
             except: return sorted(handOfCards, key = lambda crd: cardValues[crd.getMN()])[-1]

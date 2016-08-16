@@ -15,6 +15,7 @@ class hand:
     def __init__(self, cards = []):
         'Initialize cards'
         self.__cards = self.__handSort(cards)
+    def __len__(self): return len(self.__cards)
     def playCardByIndex(self, index):
         temp = self.__cards[index]
         del self.__cards[index]

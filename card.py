@@ -57,12 +57,10 @@ class card:
         'Returns the higher card, according to currGreat'
         '''compare whether self is the greater card according to the current suite
         returns true if it is, false otherwise'''
-        if not currGreat: return self
+        if not currGreat: return self # if currGreat is None
         return currGreat if \
             self.getMN()[0] != currGreat.getMN()[0] or self.getMN()[1] <= currGreat.getMN()[1] \
                 else self
-        return False if self.getMN()[0] != currGreat.getMN()[0] else \
-            self.getMN()[1] > currGreat.getMN()[1]
     def __eq__(self, other):
         return self.__series == other.__series
     def sortKey(self):
@@ -78,7 +76,7 @@ class card:
     def score(self):
         if self.__series == 10:
             return 13
-        if 13<=self.__series<=25:
+        if 13 <= self.__series <= 25:
             return 1
         return 0
 pass
