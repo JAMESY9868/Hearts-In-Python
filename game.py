@@ -20,6 +20,7 @@ def main():
         [each[0].getHand(each[1]) for each in zip(players, deck().fourHands())]
         handOutTurn(players, overAllScore, playedRounds)
         playTurn(players, overAllScore, playedRounds)
+        print()
         trace()
     print('You get ' + 
         ['first', 'second', 'third', 'last']
