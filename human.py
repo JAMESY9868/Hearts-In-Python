@@ -27,7 +27,7 @@ def handOutCards(handOfCards, overAllScore, targetPlayerNum):
         playerPrintLine(handOfCards.str())
         playerPrintLine(
             'Please type in the indices of the cards counted from left to right (starting from 0) that you would like to hand out to '
-            + playerNames[(targetPlayerNum + 1) % 4] + '. (please type in the numbers in this way: 1 2 3)')
+            + playerNames[(targetPlayerNum + 1) % 4 - 1] + '. (please type in the numbers in this way: 1 2 3)')
         
         result = ''
         while result == '':
